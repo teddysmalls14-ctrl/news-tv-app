@@ -1,0 +1,8 @@
+ffmpeg-python
+Flask
+flask-cors
+psycopg2-binary
+python-dotenv
+requests
+boto3
+Pillow

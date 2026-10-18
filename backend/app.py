@@ -1,7 +1,7 @@
 import os
 import subprocess
 import uuid
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonbify
 from flask_cors import CORS
 import boto3
 from botocore.client import Config
@@ -30,7 +30,7 @@ s3 = boto3.client(
 @app.route("/api/upload-video", methods=["POST"])
 def upload_video():
     if "video" not in request.files:
-        return jsonify({"error": "No se recibio video"}), 400
+        return jsonbify({"error": "No se recibio video"}), 400
 
     file = request.files["video"]
     filename = f"{uuid.uuid4()}_{file.filename}"
@@ -66,7 +66,7 @@ def upload_image():
     file = request.files["image"]
     filename = f"{uuid.uuid4()}_{file.filename}"
     key = f"images/{filename}"
-    s3 upload_fileobj(file, R2_BUCKET, key, ExtraArgs={"ContentType": file.content_type})
+    s3.upload_fileobj(file, R2_BUCKET, key, ExtraArgs={"ContentType": file.content_type})
 
     public_url = f"{R2_ENDPOINT}/{R2_BUCKET}/{key}"
     return jsonbify({"url": public_url, "key": key}), 200
